@@ -81,9 +81,14 @@ var EventLoopBehavior = (function() {
         return;
       }
 
-      ele.debounce('eventLoop_'+name+'_resp', function(){
+      if( options.debounce ) {
+        ele.debounce('eventLoop_'+name+'_resp', function(){
+          options.handler.call(ele, e);
+        }, options.debounce);
+      } else {
         options.handler.call(ele, e);
-      }, options.debounce !== undefined ? options.debounce : 25);
+      }
+      
     }.bind(ele);
 
     if( !options.event ) {
